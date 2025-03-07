@@ -32,8 +32,7 @@
                 if(selectedIndex>4)selectedIndex=0;
                 selectCount++;
                 updateDisplay();
-                if(previousNumber===currentNumber)inefficientMoves++;
-                if(currentNumber[selectedIndex]<=currentNumber[selectedIndex+1])inefficientMoves++;
+                if(previousNumber===currentNumber || currentNumber[selectedIndex]<=currentNumber[selectedIndex+1]) inefficientMoves++;
             }
         }
         function swapSelected(){
@@ -42,14 +41,14 @@
                 let digits=currentNumber.split('');
                 if(selectedIndex+1<digits.length){
                     let first=digits[selectedIndex],second=digits[selectedIndex+1];
-                    if(first===second)inefficientMoves++;
+                    if(first===second || first<=second) inefficientMoves++;
                     else{
                         [digits[selectedIndex],digits[selectedIndex+1]]=[second,first];
                         currentNumber=digits.join('');
                         swapCount++;
                     }
                     updateDisplay();
-                    if(previousNumber===currentNumber)inefficientMoves++;
+                    if(previousNumber===currentNumber) inefficientMoves++;
                 }
             }
         }
@@ -59,9 +58,8 @@
                 if(isOrdered){
                     let elapsedTime=((new Date()-startTime)/1000).toFixed(2);
                     let score=Math.round(100/elapsedTime*(swapCount+selectCount*0.75));
-                    // Penalizamos los movimientos ineficientes
                     let finalScore = score - (inefficientMoves * 10);
-                    document.getElementById('message').innerText=`⏳ Tiempo: ${elapsedTime} segundos.\n➡️ Movimientos: ${selectCount}\n🔁 Pasadas: ${Math.floor(selectCount/5)+1}\n🔄 Intercambios: ${swapCount}\n📊 Puntuación: ${finalScore}\n📊 Mov. Innecesarios: ${inefficientMoves}`;
+                    document.getElementById('message').innerText=`⏳ Tiempo: ${elapsedTime} segundos.\n➡️ Movimientos: ${selectCount}\n🔁 Pasadas: ${Math.floor(selectCount/5)+1}\n🔄 Intercambios: ${swapCount}\n📊 Puntuación: ${finalScore}`;
                     disableButtons();
                 }
             }
