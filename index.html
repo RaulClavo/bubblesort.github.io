@@ -3,23 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bubble Sort Simulator</title>
+    <title>Generador de Números</title>
     <style>
-        body{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;margin:0;font-family:Arial,sans-serif;background-color:#f4f4f4}
-        #number-display{font-size:80px;font-weight:bold;margin:20px 0;letter-spacing:10px}
-        .highlight{color:red}
-        button{font-size:20px;padding:10px 20px;border:none;background-color:#007bff;color:white;cursor:pointer;border-radius:5px;margin:5px}
-        button:hover{background-color:#0056b3}
-        #message{font-size:24px;font-weight:bold;margin-top:20px;text-align:center}
-        button:disabled{background-color:#cccccc;cursor:not-allowed}
+        body{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;margin:0;font-family:Arial,sans-serif;background-color:#f4f4f4}#number-display{font-size:80px;font-weight:bold;margin:20px 0;letter-spacing:10px}.highlight{color:red}button{font-size:20px;padding:10px 20px;border:none;background-color:#007bff;color:white;cursor:pointer;border-radius:5px;margin:5px}button:hover{background-color:#0056b3}#message{font-size:24px;font-weight:bold;margin-top:20px;text-align:center}button:disabled{background-color:#cccccc;cursor:not-allowed}
     </style>
     <script>
         let currentNumber="------",selectedIndex=0,startTime=null,selectCount=0,swapCount=0;
         function generateNumber(){currentNumber=(Math.floor(100000+Math.random()*900000)).toString();selectedIndex=0;startTime=new Date();selectCount=0;swapCount=0;updateDisplay();document.getElementById('message').innerText="";enableButtons();}
-        function updateDisplay(){let formattedNumber=currentNumber.split('').map((digit,index)=>(index===selectedIndex||index===selectedIndex+1)?<span class="highlight">${digit}</span>:digit).join('');document.getElementById('number-display').innerHTML=formattedNumber;checkOrder();}
+        function updateDisplay(){let formattedNumber=currentNumber.split('').map((digit,index)=>(index===selectedIndex||index===selectedIndex+1)?`<span class="highlight">${digit}</span>`:digit).join('');document.getElementById('number-display').innerHTML=formattedNumber;checkOrder();}
         function selectNextPair(){if(currentNumber!=="------"){selectedIndex++;if(selectedIndex>4)selectedIndex=0;selectCount++;updateDisplay();}}
         function swapSelected(){if(currentNumber!=="------"){let digits=currentNumber.split('');if(selectedIndex+1<digits.length){[digits[selectedIndex],digits[selectedIndex+1]]=[digits[selectedIndex+1],digits[selectedIndex]];currentNumber=digits.join('');swapCount++;updateDisplay();}}}
-        function checkOrder(){if(currentNumber!=="------"){let isOrdered=currentNumber.split('').every((digit,index,array)=>index===0||array[index]>=array[index-1]);if(isOrdered){let elapsedTime=((new Date()-startTime)/1000).toFixed(2);document.getElementById('message').innerText=⏳ Tiempo: ${elapsedTime} segundos.\n➡️ Movimientos: ${selectCount}\n🔁 Pasadas: ${Math.floor(selectCount / 5) + 1}\n🔄 Intercambios: ${swapCount}\n📊 Puntuación: ${Math.round(100 / elapsedTime * (swapCount + selectCount * 0.75))};disableButtons();}}}
+        function checkOrder(){if(currentNumber!=="------"){let isOrdered=currentNumber.split('').every((digit,index,array)=>index===0||array[index]>=array[index-1]);if(isOrdered){let elapsedTime=((new Date()-startTime)/1000).toFixed(2);document.getElementById('message').innerText=`⏳ Tiempo: ${elapsedTime} segundos.\n➡️ Movimientos: ${selectCount}\n🔁 Pasadas: ${Math.floor(selectCount/5)+1}\n🔄 Intercambios: ${swapCount}\n📊 Puntuación: ${swapCount / elapsedTime * 100}`;disableButtons();}}}
         function disableButtons(){document.querySelector("button[onclick='selectNextPair()']").disabled=true;document.querySelector("button[onclick='swapSelected()']").disabled=true;}
         function enableButtons(){document.querySelector("button[onclick='selectNextPair()']").disabled=false;document.querySelector("button[onclick='swapSelected()']").disabled=false;}
     </script>
@@ -27,8 +21,8 @@
 <body>
     <button onclick="generateNumber()">Generar Número</button>
     <p id="number-display">------</p>
-    <button onclick="selectNextPair()">Siguiente Par</button>
-    <button onclick="swapSelected()">Intercambiar</button>
+    <button onclick="selectNextPair()">Seleccionar de 2 en 2</button>
+    <button onclick="swapSelected()">Intercambiar Seleccionados</button>
     <p id="message"></p>
 </body>
 </html>
