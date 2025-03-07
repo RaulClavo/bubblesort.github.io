@@ -1,1 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Números</title>
+    <script>
+        async function generateNumber() {
+            const response = await fetch('/generate');
+            const number = await response.text();
+            document.getElementById('number-display').innerText = number;
+        }
+    </script>
+</head>
+<body>
+    <h1>Generador de Números Aleatorios</h1>
+    <p>Número generado: <strong id="number-display">------</strong></p>
+    <button onclick="generateNumber()">Generar Número</button>
+</body>
+</html>
 
