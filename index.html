@@ -43,6 +43,10 @@
             margin-top: 20px;
             text-align: center;
         }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
     </style>
     <script>
         let currentNumber = "------";
@@ -59,6 +63,7 @@
             swapCount = 0; // Reiniciar contador de intercambios
             updateDisplay();
             document.getElementById('message').innerText = ""; // Limpiar mensaje
+            enableButtons(); // Habilitar botones
         }
 
         function updateDisplay() {
@@ -106,7 +111,20 @@
 
                 let message = `⏳ Tiempo transcurrido: ${elapsedTime} segundos.\n🔁 Veces seleccionado: ${selectCount}.\n🔄 Veces intercambiado: ${swapCount}.`;
                 document.getElementById('message').innerText = message;
+
+                // Deshabilitar botones si el número está ordenado
+                disableButtons();
             }
+        }
+
+        function disableButtons() {
+            document.querySelector("button[onclick='selectNextPair()']").disabled = true;
+            document.querySelector("button[onclick='swapSelected()']").disabled = true;
+        }
+
+        function enableButtons() {
+            document.querySelector("button[onclick='selectNextPair()']").disabled = false;
+            document.querySelector("button[onclick='swapSelected()']").disabled = false;
         }
     </script>
 </head>
