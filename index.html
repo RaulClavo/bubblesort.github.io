@@ -18,7 +18,7 @@
         #number-display {
             font-size: 80px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin: 20px 0;
             letter-spacing: 10px;
         }
         .highlight {
@@ -66,6 +66,7 @@
                 (index === selectedIndex || index === selectedIndex + 1) ? `<span class="highlight">${digit}</span>` : digit
             ).join('');
             document.getElementById('number-display').innerHTML = formattedNumber;
+            checkOrder(); // Verificar automáticamente y actualizar estadísticas
         }
 
         function selectNextPair() {
@@ -94,27 +95,19 @@
         function checkOrder() {
             if (currentNumber === "------") return; // No hacer nada si no hay número generado
 
-            let digits = currentNumber.split('').map(Number); // Convertir a números
-            let isSorted = digits.every((digit, index, array) => index === 0 || array[index - 1] <= digit);
-
             let endTime = new Date();
             let elapsedTime = ((endTime - startTime) / 1000).toFixed(2); // Calcular tiempo en segundos
 
-            let message = isSorted ? "✅ Los números están ordenados correctamente." : "❌ Los números NO están ordenados.";
-            message += `\n⏳ Tiempo transcurrido: ${elapsedTime} segundos.`;
-            message += `\n🔁 Veces seleccionado: ${selectCount}.`;
-            message += `\n🔄 Veces intercambiado: ${swapCount}.`;
-
+            let message = `⏳ Tiempo transcurrido: ${elapsedTime} segundos.\n🔁 Veces seleccionado: ${selectCount}.\n🔄 Veces intercambiado: ${swapCount}.`;
             document.getElementById('message').innerText = message;
         }
     </script>
 </head>
 <body>
-    <p id="number-display">------</p>
     <button onclick="generateNumber()">Generar Número</button>
+    <p id="number-display">------</p>
     <button onclick="selectNextPair()">Seleccionar de 2 en 2</button>
     <button onclick="swapSelected()">Intercambiar Seleccionados</button>
-    <button onclick="checkOrder()">Comprobar Orden</button>
     <p id="message"></p>
 </body>
 </html>
