@@ -44,6 +44,7 @@
 
         function generateNumber() {
             currentNumber = (Math.floor(100000 + Math.random() * 900000)).toString(); // Genera un número de 6 dígitos
+            selectedIndex = 0; // Reiniciar selección
             updateDisplay();
         }
 
@@ -57,9 +58,9 @@
         function selectNextPair() {
             if (currentNumber === "------") return; // No hacer nada si no hay número generado
 
-            selectedIndex += 2;
-            if (selectedIndex >= currentNumber.length) {
-                selectedIndex = 0; // Reiniciar cuando se llega al final
+            selectedIndex++;
+            if (selectedIndex > 4) { // Solo se puede llegar hasta (5° y 6°), luego reinicia a (1° y 2°)
+                selectedIndex = 0;
             }
             updateDisplay();
         }
