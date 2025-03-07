@@ -19,29 +19,67 @@
             font-size: 80px;
             font-weight: bold;
             margin-bottom: 20px;
+            letter-spacing: 10px;
+        }
+        .highlight {
+            color: red;
         }
         button {
-            font-size: 24px;
+            font-size: 20px;
             padding: 10px 20px;
             border: none;
             background-color: #007bff;
             color: white;
             cursor: pointer;
             border-radius: 5px;
+            margin: 5px;
         }
         button:hover {
             background-color: #0056b3;
         }
     </style>
     <script>
+        let currentNumber = "------";
+        let selectedIndex = 0;
+
         function generateNumber() {
-            const number = Math.floor(100000 + Math.random() * 900000); // Genera un número de 6 dígitos
-            document.getElementById('number-display').innerText = number;
+            currentNumber = (Math.floor(100000 + Math.random() * 900000)).toString(); // Genera un número de 6 dígitos
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            let formattedNumber = currentNumber.split('').map((digit, index) => 
+                (index === selectedIndex || index === selectedIndex + 1) ? `<span class="highlight">${digit}</span>` : digit
+            ).join('');
+            document.getElementById('number-display').innerHTML = formattedNumber;
+        }
+
+        function selectNextPair() {
+            if (currentNumber === "------") return; // No hacer nada si no hay número generado
+
+            selectedIndex += 2;
+            if (selectedIndex >= currentNumber.length) {
+                selectedIndex = 0; // Reiniciar cuando se llega al final
+            }
+            updateDisplay();
+        }
+
+        function swapSelected() {
+            if (currentNumber === "------") return; // No hacer nada si no hay número generado
+
+            let digits = currentNumber.split('');
+            if (selectedIndex + 1 < digits.length) {
+                [digits[selectedIndex], digits[selectedIndex + 1]] = [digits[selectedIndex + 1], digits[selectedIndex]];
+                currentNumber = digits.join('');
+                updateDisplay();
+            }
         }
     </script>
 </head>
 <body>
     <p id="number-display">------</p>
     <button onclick="generateNumber()">Generar Número</button>
+    <button onclick="selectNextPair()">Seleccionar de 2 en 2</button>
+    <button onclick="swapSelected()">Intercambiar Seleccionados</button>
 </body>
 </html>
