@@ -37,6 +37,11 @@
         button:hover {
             background-color: #0056b3;
         }
+        #message {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
     </style>
     <script>
         let currentNumber = "------";
@@ -46,6 +51,7 @@
             currentNumber = (Math.floor(100000 + Math.random() * 900000)).toString(); // Genera un número de 6 dígitos
             selectedIndex = 0; // Reiniciar selección
             updateDisplay();
+            document.getElementById('message').innerText = ""; // Limpiar mensaje
         }
 
         function updateDisplay() {
@@ -75,6 +81,16 @@
                 updateDisplay();
             }
         }
+
+        function checkOrder() {
+            if (currentNumber === "------") return; // No hacer nada si no hay número generado
+
+            let digits = currentNumber.split('').map(Number); // Convertir a números
+            let isSorted = digits.every((digit, index, array) => index === 0 || array[index - 1] <= digit);
+
+            let message = isSorted ? "✅ Los números están ordenados correctamente." : "❌ Los números NO están ordenados.";
+            document.getElementById('message').innerText = message;
+        }
     </script>
 </head>
 <body>
@@ -82,5 +98,7 @@
     <button onclick="generateNumber()">Generar Número</button>
     <button onclick="selectNextPair()">Seleccionar de 2 en 2</button>
     <button onclick="swapSelected()">Intercambiar Seleccionados</button>
+    <button onclick="checkOrder()">Comprobar Orden</button>
+    <p id="message"></p>
 </body>
 </html>
