@@ -59,7 +59,7 @@
                     let elapsedTime=((new Date()-startTime)/1000).toFixed(2);
                     let score=Math.round(100/elapsedTime*(swapCount+selectCount*0.75));
                     let finalScore = score - (inefficientMoves * 10);
-                    document.getElementById('message').innerText=`⏳ Tiempo: ${elapsedTime} segundos.\n➡️ Movimientos: ${selectCount}\n🔁 Pasadas: ${Math.floor(selectCount/5)+1}\n🔄 Intercambios: ${swapCount}\n📊 Puntuación: ${finalScore}`;
+                    document.getElementById('message').innerText=`⏳ Tiempo: ${elapsedTime} segundos.\n➡️ Movimientos: ${selectCount}\n🔁 Pasadas: ${Math.floor(selectCount/5)+1}\n🔄 Intercambios: ${swapCount}\n📊 Puntuación: ${finalScore}\n📊 Mov. Innecesarios: ${inefficientMoves}`;
                     disableButtons();
                 }
             }
