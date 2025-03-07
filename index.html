@@ -4,6 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Números</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        #number-display {
+            font-size: 80px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        button {
+            font-size: 24px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
     <script>
         function generateNumber() {
             const number = Math.floor(100000 + Math.random() * 900000); // Genera un número de 6 dígitos
@@ -12,9 +41,7 @@
     </script>
 </head>
 <body>
-    <h1>Generador de Números Aleatorios</h1>
-    <p>Número generado: <strong id="number-display">------</strong></p>
+    <p id="number-display">------</p>
     <button onclick="generateNumber()">Generar Número</button>
 </body>
 </html>
-
