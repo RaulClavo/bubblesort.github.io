@@ -95,11 +95,18 @@
         function checkOrder() {
             if (currentNumber === "------") return; // No hacer nada si no hay número generado
 
-            let endTime = new Date();
-            let elapsedTime = ((endTime - startTime) / 1000).toFixed(2); // Calcular tiempo en segundos
+            // Verificar si el número está ordenado de menor a mayor
+            let isOrdered = currentNumber.split('').every((digit, index, array) => 
+                index === 0 || array[index] >= array[index - 1]
+            );
 
-            let message = `⏳ Tiempo transcurrido: ${elapsedTime} segundos.\n🔁 Veces seleccionado: ${selectCount}.\n🔄 Veces intercambiado: ${swapCount}.`;
-            document.getElementById('message').innerText = message;
+            if (isOrdered) {
+                let endTime = new Date();
+                let elapsedTime = ((endTime - startTime) / 1000).toFixed(2); // Calcular tiempo en segundos
+
+                let message = `⏳ Tiempo transcurrido: ${elapsedTime} segundos.\n🔁 Veces seleccionado: ${selectCount}.\n🔄 Veces intercambiado: ${swapCount}.`;
+                document.getElementById('message').innerText = message;
+            }
         }
     </script>
 </head>
