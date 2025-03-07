@@ -9,13 +9,71 @@
     </style>
     <script>
         let currentNumber="------",selectedIndex=0,startTime=null,selectCount=0,swapCount=0,inefficientMoves=0;
-        function generateNumber(){currentNumber=(Math.floor(100000+Math.random()*900000)).toString();selectedIndex=0;startTime=new Date();selectCount=0;swapCount=0;inefficientMoves=0;updateDisplay();document.getElementById('message').innerText="";enableButtons();}
-        function updateDisplay(){let formattedNumber=currentNumber.split('').map((digit,index)=>(index===selectedIndex||index===selectedIndex+1)?`<span class="highlight">${digit}</span>`:digit).join('');document.getElementById('number-display').innerHTML=formattedNumber;checkOrder();}
-        function selectNextPair(){if(currentNumber!=="------"){let previousNumber=currentNumber;selectedIndex++;if(selectedIndex>4)selectedIndex=0;selectCount++;updateDisplay();if(previousNumber===currentNumber)inefficientMoves++;if(currentNumber[selectedIndex]<=currentNumber[selectedIndex+1])inefficientMoves++;}}
-        function swapSelected(){if(currentNumber!=="------"){let previousNumber=currentNumber;let digits=currentNumber.split('');if(selectedIndex+1<digits.length){let first=digits[selectedIndex],second=digits[selectedIndex+1];if(first===second)inefficientMoves++;else{[digits[selectedIndex],digits[selectedIndex+1]]=[second,first];currentNumber=digits.join('');swapCount++;}updateDisplay();if(previousNumber===currentNumber)inefficientMoves++;}}}
-        function checkOrder(){if(currentNumber!=="------"){let isOrdered=currentNumber.split('').every((digit,index,array)=>index===0||array[index]>=array[index-1]);if(isOrdered){let elapsedTime=((new Date()-startTime)/1000).toFixed(2);let score=Math.round(100/elapsedTime*(swapCount+selectCount*0.75));document.getElementById('message').innerText=`⏳ Tiempo: ${elapsedTime} segundos.\n➡️ Movimientos: ${selectCount}\n🔁 Pasadas: ${Math.floor(selectCount/5)+1}\n🔄 Intercambios: ${swapCount}\n📊 Puntuación: ${score-inefficientMoves*10}`;disableButtons();}}}
-        function disableButtons(){document.querySelector("button[onclick='selectNextPair()']").disabled=true;document.querySelector("button[onclick='swapSelected()']").disabled=true;}
-        function enableButtons(){document.querySelector("button[onclick='selectNextPair()']").disabled=false;document.querySelector("button[onclick='swapSelected()']").disabled=false;}
+        function generateNumber(){
+            currentNumber=(Math.floor(100000+Math.random()*900000)).toString();
+            selectedIndex=0;
+            startTime=new Date();
+            selectCount=0;
+            swapCount=0;
+            inefficientMoves=0;
+            updateDisplay();
+            document.getElementById('message').innerText="";
+            enableButtons();
+        }
+        function updateDisplay(){
+            let formattedNumber=currentNumber.split('').map((digit,index)=>(index===selectedIndex||index===selectedIndex+1)?`<span class="highlight">${digit}</span>`:digit).join('');
+            document.getElementById('number-display').innerHTML=formattedNumber;
+            checkOrder();
+        }
+        function selectNextPair(){
+            if(currentNumber!=="------"){
+                let previousNumber=currentNumber;
+                selectedIndex++;
+                if(selectedIndex>4)selectedIndex=0;
+                selectCount++;
+                updateDisplay();
+                if(previousNumber===currentNumber)inefficientMoves++;
+                if(currentNumber[selectedIndex]<=currentNumber[selectedIndex+1])inefficientMoves++;
+            }
+        }
+        function swapSelected(){
+            if(currentNumber!=="------"){
+                let previousNumber=currentNumber;
+                let digits=currentNumber.split('');
+                if(selectedIndex+1<digits.length){
+                    let first=digits[selectedIndex],second=digits[selectedIndex+1];
+                    if(first===second)inefficientMoves++;
+                    else{
+                        [digits[selectedIndex],digits[selectedIndex+1]]=[second,first];
+                        currentNumber=digits.join('');
+                        swapCount++;
+                    }
+                    updateDisplay();
+                    if(previousNumber===currentNumber)inefficientMoves++;
+                }
+            }
+        }
+        function checkOrder(){
+            if(currentNumber!=="------"){
+                let isOrdered=currentNumber.split('').every((digit,index,array)=>index===0||array[index]>=array[index-1]);
+                if(isOrdered){
+                    let elapsedTime=((new Date()-startTime)/1000).toFixed(2);
+                    let score=Math.round(100/elapsedTime*(swapCount+selectCount*0.75));
+                    // Penalizamos los movimientos ineficientes
+                    let finalScore = score - (inefficientMoves * 10);
+                    document.getElementById('message').innerText=`⏳ Tiempo: ${elapsedTime} segundos.\n➡️ Movimientos: ${selectCount}\n🔁 Pasadas: ${Math.floor(selectCount/5)+1}\n🔄 Intercambios: ${swapCount}\n📊 Puntuación: ${finalScore}\n📊 Mov. Innecesarios: ${inefficientMoves}`;
+                    disableButtons();
+                }
+            }
+        }
+        function disableButtons(){
+            document.querySelector("button[onclick='selectNextPair()']").disabled=true;
+            document.querySelector("button[onclick='swapSelected()']").disabled=true;
+        }
+        function enableButtons(){
+            document.querySelector("button[onclick='selectNextPair()']").disabled=false;
+            document.querySelector("button[onclick='swapSelected()']").disabled=false;
+        }
     </script>
 </head>
 <body>
