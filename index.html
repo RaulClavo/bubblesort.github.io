@@ -41,15 +41,22 @@
             font-size: 24px;
             font-weight: bold;
             margin-top: 20px;
+            text-align: center;
         }
     </style>
     <script>
         let currentNumber = "------";
         let selectedIndex = 0;
+        let startTime = null;
+        let selectCount = 0;
+        let swapCount = 0;
 
         function generateNumber() {
             currentNumber = (Math.floor(100000 + Math.random() * 900000)).toString(); // Genera un número de 6 dígitos
             selectedIndex = 0; // Reiniciar selección
+            startTime = new Date(); // Iniciar cronómetro
+            selectCount = 0; // Reiniciar contador de selección
+            swapCount = 0; // Reiniciar contador de intercambios
             updateDisplay();
             document.getElementById('message').innerText = ""; // Limpiar mensaje
         }
@@ -68,6 +75,7 @@
             if (selectedIndex > 4) { // Solo se puede llegar hasta (5° y 6°), luego reinicia a (1° y 2°)
                 selectedIndex = 0;
             }
+            selectCount++; // Incrementar contador de selecciones
             updateDisplay();
         }
 
@@ -78,6 +86,7 @@
             if (selectedIndex + 1 < digits.length) {
                 [digits[selectedIndex], digits[selectedIndex + 1]] = [digits[selectedIndex + 1], digits[selectedIndex]];
                 currentNumber = digits.join('');
+                swapCount++; // Incrementar contador de intercambios
                 updateDisplay();
             }
         }
@@ -88,7 +97,14 @@
             let digits = currentNumber.split('').map(Number); // Convertir a números
             let isSorted = digits.every((digit, index, array) => index === 0 || array[index - 1] <= digit);
 
+            let endTime = new Date();
+            let elapsedTime = ((endTime - startTime) / 1000).toFixed(2); // Calcular tiempo en segundos
+
             let message = isSorted ? "✅ Los números están ordenados correctamente." : "❌ Los números NO están ordenados.";
+            message += `\n⏳ Tiempo transcurrido: ${elapsedTime} segundos.`;
+            message += `\n🔁 Veces seleccionado: ${selectCount}.`;
+            message += `\n🔄 Veces intercambiado: ${swapCount}.`;
+
             document.getElementById('message').innerText = message;
         }
     </script>
