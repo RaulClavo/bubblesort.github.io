@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Números</title>
     <script>
-        async function generateNumber() {
-            const response = await fetch('/generate');
-            const number = await response.text();
+        function generateNumber() {
+            const number = Math.floor(100000 + Math.random() * 900000); // Genera un número de 6 dígitos
             document.getElementById('number-display').innerText = number;
         }
     </script>
@@ -18,4 +17,3 @@
     <button onclick="generateNumber()">Generar Número</button>
 </body>
 </html>
-
